@@ -9,6 +9,7 @@ import java.util.Date;
 public class Order extends BaseEntity {
 
     public static final String PRODUCT_PROPERTY = "product";
+    public static final String STATUS_PROPERTY = "status";
 
     @Column(name = "quantity", nullable = false)
     private BigDecimal quantity;
@@ -20,6 +21,9 @@ public class Order extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @Column(name = "status")
+    private OrderStatus status;
 
     public BigDecimal getQuantity() {
         return quantity;
@@ -43,5 +47,13 @@ public class Order extends BaseEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 }

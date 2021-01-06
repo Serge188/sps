@@ -3,6 +3,7 @@ package ru.sps.services;
 import org.springframework.stereotype.Service;
 import ru.sps.integration.viber.entries.OrderInput;
 import ru.sps.model.Order;
+import ru.sps.model.OrderStatus;
 import ru.sps.repository.OrderRepository;
 import ru.sps.repository.ProductRepository;
 import ru.sps.utils.NumberUtils;
@@ -37,6 +38,7 @@ public class OrderService {
                 order.setProduct(p);
                 order.setQuantity(input.getQty());
                 order.setDate(now);
+                order.setStatus(OrderStatus.NEW);
                 orders.add(order);
             });
         });

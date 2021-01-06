@@ -65,3 +65,22 @@ databaseChangeLog:
                   type: timestamp
                   constraints:
                     nullable: false
+  - changeSet:
+      id: Order status
+      author: Serge188
+      changes:
+        - addColumn:
+            tableName: prod_orders
+            columns:
+              - column:
+                  name: status
+                  type: varchar(32)
+                  defaultValue: 'NEW'
+                  constraints:
+                    - nullable: false
+  - changeset:
+      id: Existing order status changing
+      author: Serge188
+      chnages:
+        - sql:
+            "UPDATE prod_orders SET status = 'CONFIRMED'"
