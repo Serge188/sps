@@ -6,6 +6,8 @@ import javax.persistence.*;
 @Table(name = "prod_products")
 public class Product extends BaseEntity {
 
+    public final static String TITLE_PROPERTY = "title";
+
     @Column(name="title", nullable = false)
     private String title;
 

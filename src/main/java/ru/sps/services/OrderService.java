@@ -27,7 +27,7 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-    public void createOrders(List<OrderInput> inputs) {
+    public List<Order> createOrders(List<OrderInput> inputs) {
 
         var orders = new ArrayList<Order>();
         var now = new Date();
@@ -41,6 +41,7 @@ public class OrderService {
             });
         });
         orderRepository.saveAll(orders);
+        return orders;
     }
 
     Map<Long, List<Order>> getOrdersForProducts(Collection<Long> productIds) {

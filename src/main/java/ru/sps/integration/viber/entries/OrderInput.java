@@ -6,6 +6,11 @@ public class OrderInput {
     private long productId;
     private BigDecimal qty;
 
+    public OrderInput(long productId, BigDecimal qty) {
+        this.productId = productId;
+        this.qty = qty;
+    }
+
     public long getProductId() {
         return productId;
     }

@@ -9,6 +9,10 @@ public class ProductSpecification {
         return (r, cq, cb) -> cb.equal(r.get("active"), Boolean.TRUE);
     }
 
+    public static Specification<Product> likeTitle(String title) {
+        return (r, cq, cb) -> cb.like(cb.lower(r.get(Product.TITLE_PROPERTY)), title.toLowerCase());
+    }
+
 //    public static Specification<Product> joinTest(SomeUser input) {
 //        return new Specification<Product>() {
 //            public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
