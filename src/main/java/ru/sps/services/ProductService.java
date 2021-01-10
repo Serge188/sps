@@ -1,17 +1,15 @@
 package ru.sps.services;
 
-import liquibase.util.StringUtils;
 import org.springframework.stereotype.Service;
-import ru.sps.integration.Messenger;
 import ru.sps.model.Product;
 import ru.sps.repository.ProductRepository;
-import ru.sps.integration.viber.ViberService;
 
 import java.math.BigDecimal;
 import java.util.*;
 
 import static ru.sps.repository.specification.ProductSpecification.activeProducts;
 import static java.util.stream.Collectors.toList;
+import static ru.sps.repository.specification.ProductSpecification.likeTitle;
 
 @Service
 public class ProductService {
@@ -21,26 +19,14 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final OrderService orderService;
-    private final Messenger messenger;
 
     public ProductService(ProductRepository productRepository,
-                          Messenger viberService,
                           OrderService orderService) {
         this.productRepository = productRepository;
-        this.messenger = viberService;
         this.orderService = orderService;
     }
 
-    public void calculateDemandsAndSendMessage() {
-        var productsForOrder = calculateDemands();
-        if (StringUtils.isNotEmpty(productsForOrder)) {
-            messenger.sendMessage(productsForOrder);
-        } else {
-            messenger.sendMessage("No demands calculated");
-        }
-    }
-
-    private String calculateDemands() {
+    public String calculateDemands() {
         List<String> demands = new LinkedList<>();
         var activeProducts = productRepository.findAll(activeProducts());
         var ordersMap = orderService.getOrdersForProducts(activeProducts.stream().map(Product::getId).collect(toList()));
@@ -51,5 +37,9 @@ public class ProductService {
             }
         });
         return String.join(", ", demands);
+    }
+
+    public List<Product> getProductsByTitle(String title) {
+        return productRepository.findAll(likeTitle(title));
     }
 }

@@ -18,7 +18,6 @@ public class ProductTest {
 
     @Test
     public void messageTest() {
-        productService.calculateDemandsAndSendMessage();
-        testMessenger.sendMessage("Message");
+        
     }
 }

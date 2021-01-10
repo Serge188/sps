@@ -8,6 +8,4 @@ import java.util.List;
 public interface Messenger {
 
     void sendMessage(String message);
-
-    List<OrderInput> retrieveMessage(IncomingMessageEntry message);
 }
