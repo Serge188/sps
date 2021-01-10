@@ -18,4 +18,8 @@ public class OrderSpecification {
                     orderProduct.get(Product.ID_PROPERTY).in(productIds));
         };
     }
+
+    public static Specification<Order> unconfirmedOrders() {
+        return (r, cq, cb) -> cb.equal(r.get(Order.STATUS_PROPERTY), OrderStatus.NEW);
+    }
 }

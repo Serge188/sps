@@ -10,16 +10,7 @@ public class ProductSpecification {
     }
 
     public static Specification<Product> likeTitle(String title) {
-        return (r, cq, cb) -> cb.like(cb.lower(r.get(Product.TITLE_PROPERTY)), title.toLowerCase());
+        var paramTitle = '%' + title + '%';
+        return (r, cq, cb) -> cb.like(cb.lower(r.get(Product.TITLE_PROPERTY)), paramTitle.toLowerCase());
     }
-
-//    public static Specification<Product> joinTest(SomeUser input) {
-//        return new Specification<Product>() {
-//            public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-//                Join<Product,SomeUser> userProd = root.join("owner");
-//                Join<FollowingRelationship,Product> prodRelation = userProd.join("ownedRelationships");
-//                return cb.equal(prodRelation.get("follower"), input);
-//            }
-//        };
-//    }
 }
