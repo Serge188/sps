@@ -23,6 +23,7 @@ public class Order extends BaseEntity {
     private Product product;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     public BigDecimal getQuantity() {
