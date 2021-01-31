@@ -15,6 +15,6 @@ public class SendDemandsJob {
 
     @Scheduled(cron="0 0 8 ? * *")
     public void sendDemands() {
-        productApi.calculateDemandsAndSendMessage();
+        productApi.calculateDemandsAndBroadcastMessage();
     }
 }

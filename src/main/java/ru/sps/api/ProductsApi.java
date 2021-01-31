@@ -18,12 +18,12 @@ public class ProductsApi {
         this.messenger = viberService;
     }
 
-    public void calculateDemandsAndSendMessage() {
+    public void calculateDemandsAndBroadcastMessage() {
         var productsForOrder = productService.calculateDemands();
         if (StringUtils.isNotEmpty(productsForOrder)) {
-            messenger.sendMessage(productsForOrder);
+            messenger.broadcastMessage(productsForOrder);
         } else {
-            messenger.sendMessage("No demands calculated");
+            messenger.broadcastMessage("No demands calculated");
         }
     }
 }

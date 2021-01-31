@@ -84,3 +84,32 @@ databaseChangeLog:
       chnages:
         - sql:
             "UPDATE prod_orders SET status = 'CONFIRMED'"
+  - changeSet:
+      id: Messenger users table creation
+      author: Serge188
+      changes:
+        - createTable:
+            tableName: msg_users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: external_id
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: external_name
+                  type: varchar(32)
+                  constraints:
+                    nullable: false

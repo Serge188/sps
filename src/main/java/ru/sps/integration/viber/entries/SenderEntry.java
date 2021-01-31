@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName("sender")
-class SenderEntry {
+public class SenderEntry {
 
     @JsonProperty
     private String id;

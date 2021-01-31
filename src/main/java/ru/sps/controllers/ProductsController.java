@@ -14,6 +14,6 @@ public class ProductsController {
 
     @GetMapping("/demands")
     public void sendMessage() {
-        productsApi.calculateDemandsAndSendMessage();
+        productsApi.calculateDemandsAndBroadcastMessage();
     }
 }

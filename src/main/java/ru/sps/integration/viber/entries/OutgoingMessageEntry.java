@@ -2,13 +2,17 @@ package ru.sps.integration.viber.entries;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class OutgoingMessageEntry {
     @JsonProperty
     private String receiver;
+    @JsonProperty("broadcast_list")
+    private List<String> broadcastList;
     @JsonProperty("min_api_version")
-    private int minApiVersion;
+    private int minApiVersion = 1;
     @JsonProperty
-    private SenderEntry sender;
+    private SenderEntry sender = new SenderEntry("SPS bot");
     @JsonProperty
     private String type = "text";
     @JsonProperty
@@ -16,9 +20,11 @@ public class OutgoingMessageEntry {
 
     public OutgoingMessageEntry(String receiver, String message) {
         this.receiver = receiver;
-        this.minApiVersion = 1;
-        this.sender = new SenderEntry("SPS bot");
-        this.type = "text";
+        this.text = message;
+    }
+
+    public OutgoingMessageEntry(List<String> broadcastList, String message) {
+        this.broadcastList = broadcastList;
         this.text = message;
     }
 }
