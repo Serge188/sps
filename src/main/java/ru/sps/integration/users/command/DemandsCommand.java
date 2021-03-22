@@ -1,7 +1,9 @@
 package ru.sps.integration.users.command;
 
+import org.springframework.stereotype.Component;
 import ru.sps.services.ProductService;
 
+@Component
 public class DemandsCommand implements Command {
 
     private final ProductService productService;
