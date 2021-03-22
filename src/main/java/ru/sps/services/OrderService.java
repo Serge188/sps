@@ -79,17 +79,23 @@ public class OrderService {
     public List<Order> createOrders(List<OrderInput> inputs) {
 
         var orders = new ArrayList<Order>();
-        var unconfirmedOrderProductIds = getUnconfirmedOrders().stream().map(o -> o.getProduct().getId()).collect(Collectors.toSet());
+        var unconfirmedOrdersMap = getUnconfirmedOrders()
+                .stream()
+                .collect(Collectors.toMap(o -> o.getProduct().getId(), o -> o));
         var now = new Date();
         inputs.forEach(input -> {
             var order = new Order();
             productRepository.findById(input.getProductId()).ifPresent(p -> {
-                if (!unconfirmedOrderProductIds.contains(p.getId())) {
+                if (!unconfirmedOrdersMap.keySet().contains(p.getId())) {
                     order.setProduct(p);
                     order.setQuantity(input.getQty());
                     order.setDate(now);
                     order.setStatus(OrderStatus.NEW);
                     orders.add(order);
+                } else {
+                    var existingOrder = unconfirmedOrdersMap.get(p.getId());
+                    existingOrder.setQuantity(input.getQty());
+                    orders.add(existingOrder);
                 }
             });
         });
@@ -97,13 +103,31 @@ public class OrderService {
         return orders;
     }
 
+    public boolean unconfirmedOrdersExist() {
+        return !getUnconfirmedOrders().isEmpty();
+    }
+
     public void confirmOrders() {
         var unconfirmedOrders = getUnconfirmedOrders();
         unconfirmedOrders.forEach(o -> o.setStatus(OrderStatus.CONFIRMED));
     }
 
-    public void removeUnconfirmedOrders() {
-        getUnconfirmedOrders().forEach(orderRepository::delete);
+    public String removeUnconfirmedOrders(String param) {
+        if (param != null && !param.isEmpty()) {
+            removeUnconfirmedOrder(param);
+            return param + " deleted";
+        } else {
+            getUnconfirmedOrders().forEach(orderRepository::delete);
+            return "All unconfirmed orders deleted";
+        }
+    }
+
+    private void removeUnconfirmedOrder(String orderName) {
+        getUnconfirmedOrders()
+                .stream()
+                .filter(order -> order.getProduct().getTitle().equals(orderName))
+                .findAny()
+                .ifPresent(orderRepository::delete);
     }
 
     public List<Order> getUnconfirmedOrders() {

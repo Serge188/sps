@@ -19,12 +19,11 @@ public class RemoveUnconfirmedOrdersCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Remove unconfirmed purchases";
+        return "Remove all unconfirmed purchases";
     }
 
     @Override
     public String execute(String param) {
-        orderService.removeUnconfirmedOrders();
-        return "Orders removed";
+        return orderService.removeUnconfirmedOrders(param);
     }
 }

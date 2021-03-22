@@ -20,4 +20,8 @@ public class OrdersApi {
     public void createOrders(List<OrderInput> inputs) {
         orderService.createOrders(inputs);
     }
+
+    public boolean unconfirmedOrdersExist() {
+        return orderService.unconfirmedOrdersExist();
+    }
 }

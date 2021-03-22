@@ -43,4 +43,8 @@ public class MessageApi {
         }
         viberService.sendMessage(result);
     }
+
+    public void sendMessage(String message) {
+        viberService.sendMessage(message);
+    }
 }
