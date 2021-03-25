@@ -30,6 +30,6 @@ public class UserCommandExecutor {
     }
 
     private String getHelpText() {
-        return commandsMap.values().stream().map(c -> c.getName() + " - " + c.getDescription()).collect(Collectors.joining(", "));
+        return commandsMap.values().stream().map(c -> c.getName() + " - " + c.getDescription()).collect(Collectors.joining("\n"));
     }
 }

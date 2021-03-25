@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: Product groups table creation
+      author: Serge188
+      changes:
+        - createTable:
+            tableName: prod_groups
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_number
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: Join product and groups
+      author: Serge188
+      changes:
+        - addColumn:
+            tableName: prod_products
+            columns:
+              - column:
+                  name: group_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_prod_group
+                    references: prod_groups(id)

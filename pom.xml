@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.sps</groupId>
     <artifactId>core</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>core</name>
     <description>Store planing system</description>
 

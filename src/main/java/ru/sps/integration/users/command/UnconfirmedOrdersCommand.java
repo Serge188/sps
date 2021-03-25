@@ -2,15 +2,17 @@ package ru.sps.integration.users.command;
 
 import org.springframework.stereotype.Component;
 import ru.sps.services.OrderService;
+import ru.sps.services.ProductService;
 
-import java.util.stream.Collectors;
 
 @Component
 public class UnconfirmedOrdersCommand implements Command {
 
+    private final ProductService productService;
     private final OrderService orderService;
 
-    public UnconfirmedOrdersCommand(OrderService orderService) {
+    public UnconfirmedOrdersCommand(ProductService productService, OrderService orderService) {
+        this.productService = productService;
         this.orderService = orderService;
     }
 
@@ -26,11 +28,15 @@ public class UnconfirmedOrdersCommand implements Command {
 
     @Override
     public String execute(String param) {
-        String result =  orderService.getUnconfirmedOrders()
-                .stream()
-                .map(o -> o.getProduct().getTitle() + ": " + o.getQuantity())
-                .collect(Collectors.joining(", "));
-        if (result.isBlank()) result = "No unconfirmed orders found";
+        var orders =  orderService.getUnconfirmedOrders();
+
+        String result;
+        if (orders.isEmpty()) {
+            result = "No unconfirmed orders found";
+        } else {
+            result = productService.getOrderedProductTitlesFromOrders(orders);
+        }
+
         return result;
     }
 }
