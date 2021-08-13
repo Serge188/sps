@@ -41,3 +41,43 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_prod_group
                     references: prod_groups(id)
+  - changeSet:
+      id: Units of measure table creation
+      author: Serge188
+      changes:
+        - createTable:
+            tableName: prod_uom
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: short_name
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: full_name
+                  type: varchar(50)
+  - changeSet:
+      id: Foreign key for UOM in products
+      author: Serge188
+      changes:
+        - addColumn:
+            tableName: prod_products
+            columns:
+              - column:
+                  name: uom_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_prod_uom
+                    references: prod_uom(id)

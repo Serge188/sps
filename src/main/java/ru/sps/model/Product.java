@@ -18,6 +18,10 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "group_id")
     private ProductGroup group;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uom_id")
+    private UnitOfMeasure uom;
+
     public Product() {
     }
 
@@ -47,5 +51,20 @@ public class Product extends BaseEntity {
 
     public void setGroup(ProductGroup group) {
         this.group = group;
+    }
+
+    public UnitOfMeasure getUom() {
+        return uom;
+    }
+
+    public String getUomShortName() {
+        if (this.uom != null) {
+            return this.uom.getShortName();
+        }
+        return "";
+    }
+
+    public void setUom(UnitOfMeasure uom) {
+        this.uom = uom;
     }
 }

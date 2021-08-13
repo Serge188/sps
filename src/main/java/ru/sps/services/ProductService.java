@@ -51,11 +51,11 @@ public class ProductService {
 
     public String getOrderedProductTitlesFromOrders(List<Order> orders) {
         var products = orders.stream().map(Order::getProduct).collect(Collectors.toList());
-        var map = orders.stream().collect(Collectors.toMap(o -> o.getProduct().getId(), Order::getQuantity));
+        var map = orders.stream().collect(Collectors.toMap(o -> o.getProduct().getId(), o -> o));
         return getProductTitlesOrderedByGroups(products, map);
     }
 
-    private String getProductTitlesOrderedByGroups(List<Product> products, Map<Long, BigDecimal> prodToQtyMap) {
+    private String getProductTitlesOrderedByGroups(List<Product> products, Map<Long, Order> prodToOrdersMap) {
         var productsWithoutGroup = new ArrayList<Product>();
         var groupMap = new HashMap<Integer, List<Product>>();
 
@@ -74,8 +74,12 @@ public class ProductService {
             groupMap.get(gOrder).forEach(p ->
                     sb
                             .append(p.getTitle())
-                            .append(prodToQtyMap != null ? ": " : "")
-                            .append(prodToQtyMap != null ? prodToQtyMap.get(p.getId()) : "")
+                            .append(prodToOrdersMap != null ? ": " : "")
+                            .append(prodToOrdersMap != null
+                                    ? prodToOrdersMap.get(p.getId()).getQuantity()
+                                    : "")
+                            .append(prodToOrdersMap != null ? " " : "")
+                            .append(prodToOrdersMap != null ? p.getUomShortName() : "")
                             .append("\n"));
             sb.append("\n");
         });
