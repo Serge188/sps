@@ -19,7 +19,7 @@ public class ProductsApi {
     }
 
     public void calculateDemandsAndBroadcastMessage() {
-        var productsForOrder = productService.calculateDemands();
+        var productsForOrder = productService.getDemandsAsString();
         if (StringUtils.isNotEmpty(productsForOrder)) {
             messenger.broadcastMessage(productsForOrder);
         } else {

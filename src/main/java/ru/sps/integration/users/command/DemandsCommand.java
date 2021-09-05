@@ -24,7 +24,7 @@ public class DemandsCommand implements Command {
 
     @Override
     public String execute(String param) {
-        var result = productService.calculateDemands();
+        var result = productService.getDemandsAsString();
         if (result.isBlank()) result = "No demands calculated";
         return result;
     }

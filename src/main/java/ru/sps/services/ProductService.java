@@ -28,7 +28,12 @@ public class ProductService {
         this.orderService = orderService;
     }
 
-    public String calculateDemands() {
+    public String getDemandsAsString() {
+        List<Product> demands = calculateDemands();
+        return getOrderedProductTitles(demands);
+    }
+
+    private List<Product> calculateDemands() {
         List<Product> demands = new LinkedList<>();
         var activeProducts = productRepository.findAll(activeProducts());
         var ordersMap = orderService.getOrdersForProducts(activeProducts.stream().map(Product::getId).collect(toList()));
@@ -38,7 +43,7 @@ public class ProductService {
                 demands.add(p);
             }
         });
-        return getOrderedProductTitles(demands);
+        return demands;
     }
 
     public List<Product> getProductsByTitle(String title) {
