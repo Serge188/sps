@@ -81,3 +81,16 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_prod_uom
                     references: prod_uom(id)
+  - changeset:
+      id: Demand weight in products table
+      author: serge188
+      changes:
+        - addColumn:
+            tableName: prod_products
+            columns:
+              - column:
+                  name: demand_weight
+                  type: INT
+                  defaultValue: 0
+                  constraints:
+                    nullable: false

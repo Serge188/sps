@@ -4,7 +4,10 @@ import liquibase.util.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sps.integration.Messenger;
+import ru.sps.model.Product;
 import ru.sps.services.ProductService;
+
+import java.util.List;
 
 @Component
 @Transactional
@@ -25,5 +28,9 @@ public class ProductsApi {
         } else {
             messenger.broadcastMessage("No demands calculated");
         }
+    }
+
+    public List<Product> calculateDemands() {
+        return productService.calculateDemands();
     }
 }

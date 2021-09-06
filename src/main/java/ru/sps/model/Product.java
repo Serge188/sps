@@ -6,6 +6,9 @@ import javax.persistence.*;
 @Table(name = "prod_products")
 public class Product extends BaseEntity {
 
+    private static int MAX_DEMAND_WEIGHT = 5;
+    private static int BORDER_DEMAND_WEIGHT = 2;
+
     public final static String TITLE_PROPERTY = "title";
 
     @Column(name="title", nullable = false)
@@ -21,6 +24,9 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uom_id")
     private UnitOfMeasure uom;
+
+    @Column(name = "demand_weight", nullable = false)
+    private int demandWeight;
 
     public Product() {
     }
@@ -66,5 +72,21 @@ public class Product extends BaseEntity {
 
     public void setUom(UnitOfMeasure uom) {
         this.uom = uom;
+    }
+
+    public int getDemandWeight() {
+        return demandWeight;
+    }
+
+    public void setDemandWeight(int demandWeight) {
+        this.demandWeight = demandWeight;
+    }
+
+    public boolean isMaxDemandWeight() {
+        return demandWeight >= MAX_DEMAND_WEIGHT;
+    }
+
+    public boolean includeInDemandByWeight() {
+        return demandWeight > BORDER_DEMAND_WEIGHT;
     }
 }

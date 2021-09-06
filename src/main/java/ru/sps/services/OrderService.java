@@ -109,7 +109,13 @@ public class OrderService {
 
     public void confirmOrders() {
         var unconfirmedOrders = getUnconfirmedOrders();
-        unconfirmedOrders.forEach(o -> o.setStatus(OrderStatus.CONFIRMED));
+        unconfirmedOrders.forEach(o -> {
+            var p = o.getProduct();
+            if (!p.isMaxDemandWeight()) {
+               p.setDemandWeight(p.getDemandWeight() + 1);
+            }
+            o.setStatus(OrderStatus.CONFIRMED);
+        });
     }
 
     public String removeUnconfirmedOrders(String param) {

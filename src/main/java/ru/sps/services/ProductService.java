@@ -33,11 +33,16 @@ public class ProductService {
         return getOrderedProductTitles(demands);
     }
 
-    private List<Product> calculateDemands() {
+    public List<Product> calculateDemands() {
         List<Product> demands = new LinkedList<>();
-        var activeProducts = productRepository.findAll(activeProducts());
-        var ordersMap = orderService.getOrdersForProducts(activeProducts.stream().map(Product::getId).collect(toList()));
-        activeProducts.forEach(p -> {
+        var products = productRepository
+                .findAll(activeProducts())
+                .stream()
+                .filter(Product::includeInDemandByWeight)
+                .collect(Collectors.toList());
+
+        var ordersMap = orderService.getOrdersForProducts(products.stream().map(Product::getId).collect(toList()));
+        products.forEach(p -> {
             var consumedPart = orderService.calculateConsumedPart(ordersMap.get(p.getId()));
             if (consumedPart.compareTo(SAFETY_CONSUMED_PART) >= 0) {
                 demands.add(p);
